@@ -20,7 +20,7 @@
 
 function listCal(roomnumber) {
 	
-	
+	alert("listCal()");
 
 	$.ajax({
 		type : 'post',
@@ -31,12 +31,11 @@ function listCal(roomnumber) {
 		},
 		success : function (data) {
 			console.log(data);
-			alert(data);
 			console.log("성공");
 			//if(result == 'SUCCESS'){ alert("등록 되었습니다");}
 			var arr = [];
 			var colors = ["blue","green","red","pink"];
-			$(data).each(	function(index, e) {
+			$(data).each(	function(index, e) { 
 
 				
 				var elm = { title : e.title, 
@@ -48,9 +47,6 @@ function listCal(roomnumber) {
 								};
 			arr.push(elm);
 			
-			
-			
-			
 			var str ='<div class="card" style="display: none;" id="'+e.calno+'">'			
 			+'<div class="card-body" style="  height: 200px;">'
              +' <h4 class="card-title">'+e.title+'</h4>'
@@ -61,8 +57,6 @@ function listCal(roomnumber) {
             		  +'class="btn btn-primary" style="float: right;">삭제</button>'
               +'</div>'
               +'</div>';
-              
-              
               
               $('#cardList').prepend($(str));
 							
@@ -93,26 +87,13 @@ function listCal(roomnumber) {
 						    $('.card').css('display','none');
 						   $('#'+event.myid).css('display','block');
 						   
-
-						  
-					
-						    
 						  }
-				
-				
 				});
-			
-			
-				
 			},
-			
 		error:function(){
 			alert("에러~~~~~~~~~~");
-			
 		}
 	});
-	
-	
 };	
 
 
@@ -191,8 +172,14 @@ function appendMessage(msg) {
 $(document).ready(function() {
 	
 	
-	var roomnumber = '${param.roomnumber}';
-	listCal(roomnumber);	
+	$('.callist').on("click", function(){
+	
+		$('.calendarmodal').css('display','block'); $('body').css('overflow','hidden');
+		var roomnumber = '${param.roomnumber}';
+		listCal(roomnumber);	
+		
+	})
+	
 	
 
 connect();
@@ -672,13 +659,13 @@ small{
 							<a class="dropdown-item" href="#">공지</a>
 							<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#"
-							onclick="$('.modal.upload').css('display','block'); $('body').css('overflow','hidden');">파일</a>
+							onclick="$('.uploadmodal').css('display','block'); $('body').css('overflow','hidden');">파일</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#"
-							onclick="$('.modal.calendar').css('display','block'); $('body').css('overflow','hidden');" >일정</a>
+							<a class="dropdown-item callist" href="#"
+							onclick="" >일정</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item vote votelist" href="#"
-								onclick="$('.modal').css('display','block'); $('body').css('overflow','hidden');">투표</a>
+								onclick="$('.votemodal').css('display','block'); $('body').css('overflow','hidden');">투표</a>
 						</div>
 						<input type="text" id="message">
 						<button type="button"
@@ -710,7 +697,7 @@ $("#btn_mypage").on("click",function(){
 	location.href="<%= request.getContextPath()%>/members/mypage.do";
 });
 </script>
-<div class="modal upload">
+<div class="modal uploadmodal">
 		<div class="ReactModal__Overlay ReactModal__Overlay--after-open"
 			aria-modal="true"
 			style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(73, 80, 86, 0.95); z-index: 150;">
@@ -720,7 +707,7 @@ $("#btn_mypage").on("click",function(){
 						<h5 class="modal-title">파일업로드</h5>
 						<button class="close" aria-label="Close" type="button"
 							data-dismiss="modal"
-							onclick="$('.modal').css('display','none'); $('body').css('overflow','visible');  ">
+							onclick="$('.uploadmodal').css('display','none'); $('body').css('overflow','visible');  ">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -849,7 +836,7 @@ $('.fileDrop').on('drop', function (event) {
 
 </script>
 <!--Calendar -->
-	<div class="modal calendar">
+	<div class="modal calendarmodal">
 		<div class="ReactModal__Overlay ReactModal__Overlay--after-open"
 			aria-modal="true"
 			style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(73, 80, 86, 0.95); z-index: 150;">
@@ -859,7 +846,7 @@ $('.fileDrop').on('drop', function (event) {
 						<h5 class="modal-title">일정</h5>
 						<button class="close" aria-label="Close" type="button"
 							data-dismiss="modal"
-							onclick="$('.modal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
+							onclick="$('.calendarmodal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -886,7 +873,7 @@ $('.fileDrop').on('drop', function (event) {
 					 
 					 
 <div class="registerCal" style="display: none; margin: 10px;">
-					 		<form id="form1" >	
+					 		<div id="form1" >	
 		<div class="form-group">
 
 		<textarea class="form-control" name="content" rows="5" cols="100">일정내용 작성</textarea>
@@ -935,7 +922,7 @@ $('.fileDrop').on('drop', function (event) {
 					<div class="modal-footer">
 						<button id="calendarComplete"  class="btn btn-primary">등록</button>
 					</div>
-</form>
+</div>
 </div>
  
 					 </div>
@@ -948,7 +935,7 @@ $('.fileDrop').on('drop', function (event) {
 	</div>
 	
 	
-	<div class="modal">
+	<div class="modal votemodal">
 		<div class="ReactModal__Overlay ReactModal__Overlay--after-open"
 			aria-modal="true"
 			style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(73, 80, 86, 0.95); z-index: 150;">
@@ -958,7 +945,7 @@ $('.fileDrop').on('drop', function (event) {
 						<h5 class="modal-title">투표</h5>
 						<button class="close" aria-label="Close" type="button"
 							data-dismiss="modal"
-							onclick="$('.modal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
+							onclick="$('.votemodal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -1020,7 +1007,169 @@ $('.fileDrop').on('drop', function (event) {
 			</div>
 		</div>
 	</div>
+<script type="text/javascript">
 
+/* Calendar 관련  */
+
+$('#calendarComplete').on("click", function () {
+	
+	var roomnumber = '${param.roomnumber}';
+	
+
+	var params = $('#form1').serialize();
+	console.log(params);
+	
+	var content = $('textarea[name="content"]').val();
+	var title = $('textarea[name="title"]').val();
+	var loc = $('textarea[name="loc"]').val();
+	var sdate = $("select[name='sdate']").val();
+	var shour = $("select[name='shour']").val();
+	var sminute = $("select[name='sminute']").val();
+	var edate = $("select[name='edate']").val();
+	var ehour = $("select[name='ehour']").val();
+	var eminute = $("select[name='eminute']").val();
+	
+	
+
+	console.log(sdate+shour+sminute);
+	
+	alert(content);
+	alert(title);
+	alert(loc);
+	alert(roomnumber);
+
+	$.ajax({
+		type : 'get',
+		url : '/web/ajax/createCal',
+		dataType : 'json',
+		data : {
+			content : content,
+			title : title,
+			loc : loc,
+			startdate : sdate,
+			starttime : shour+":"+sminute,
+			enddate : edate,
+			endtime : ehour+":"+eminute,
+			roomnumber : roomnumber
+		},
+		success : function (data) {
+	/* 		console.log(data);
+			console.log("성공");
+			if(result == 'SUCCESS'){ alert("등록 되었습니다");}
+			appendMessage("일정이 등록되었습니다");
+			$('.calendar').css('display','none'); $('body').css('overflow','visible');   */
+			
+			
+			console.log(data.result);
+			
+			alert("성공~~~~~");
+			
+			console.log("성공");
+			
+			$('#calendar').empty();
+			
+			var roomnumber = '${param.roomnumber}';
+			listCal(roomnumber);
+			
+			
+
+			
+			
+			
+			$.ajax({
+				type : 'post',
+				url : '/web/ajax/listCal',
+				dataType : 'json',
+				data :{
+					roomnumber : '${param.roomnumber}'
+				},
+				success : function (data) {
+					console.log(data);
+					console.log("성공");
+					//if(result == 'SUCCESS'){ alert("등록 되었습니다");}
+					var arr = [];
+					var colors = ["blue","green","red","pink"];
+					$(data).each(	function(index, e) { 
+
+						
+						var elm = { title : e.title, 
+											start : e.startdate,
+											end : e.enddate,
+											 allDay: false,
+										      color: colors[index%4],
+										      myid : e.calno
+										};
+					arr.push(elm);
+					
+					var str ='<div class="card" style="display: none;" id="'+e.calno+'">'			
+					+'<div class="card-body" style="  height: 200px;">'
+		             +' <h4 class="card-title">'+e.title+'</h4>'
+		              +'<h6 class="card-subtitle mb-2 text-muted">'+e.startdate+' '+e.starttime+' - '+e.enddate+' '+e.endtime+'</h6>'
+		              +'<p class="card-text">'+e.content+'</p>'
+		              +'<p class="card-text">'+e.loc+'</p>'
+		              +'<button onclick="location.href='+"'/web/ajax/delCal?calno="+e.calno+'&roomnumber=${param.roomnumber}'+"'"+'"'
+		            		  +'class="btn btn-primary" style="float: right;">삭제</button>'
+		              +'</div>'
+		              +'</div>';
+		              
+		              $('#cardList').prepend($(str));
+									
+				});
+
+				
+					var calendar = $('#calendar').fullCalendar({
+						events: arr,
+						editable : true,
+						   dayClick: function (date, jsEvent, view) {
+								alert(date.format('YYYY년 MM월 DD일'));
+								var startdate =moment(new Date(date)).format('MM/DD/YYYY');// date.format('YYYY년 MM월 DD일');
+								$('#startdate').val(startdate).html(startdate);
+								$('#enddate').val(startdate).html(startdate);
+								$('#calendar').fullCalendar('addEventSource',
+									[
+										{
+											title:  '',
+											start:  date.format('YYYY, MM, DD'),
+											color : 'gray'
+										}
+									]
+								);
+							},
+							
+							  eventClick: function(event) {							    
+								    alert(event.myid);
+								    $('.card').css('display','none');
+								   $('#'+event.myid).css('display','block');
+								   
+								  }
+						});
+					},
+				error:function(){
+					alert("에러~~~~~~~~~~");
+				}
+			});
+			
+			
+			
+			
+		},
+		error:function(){
+			console.log("성공");
+			
+		}
+	});
+	
+	
+
+
+});
+
+
+
+
+
+
+</script>
 
 </body>
 </html>

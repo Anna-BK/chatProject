@@ -58,7 +58,7 @@
 <insert id="createCal" parameterType="org.sist.web.vo.CalendarVO">
 insert into calendar (calno, title, content, startdate,starttime,loc,enddate,endtime,roomnumber)
 values (SEQ_CAL.Nextval, #{title},#{content},#{startdate},#{starttime},#{loc},#{enddate},#{endtime},#{roomnumber})
-    </insert>
+</insert>
     
     
 <select id="getCalList" parameterType="String" resultType="org.sist.web.vo.CalendarVO">

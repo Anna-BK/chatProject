@@ -189,11 +189,11 @@
 		</dependency>
 		
 		<!-- 2. ojdbc6 -->
-	 	<dependency>
+<!-- 	 	<dependency>
 		  <groupId>com.oracle</groupId>
 		  <artifactId>ojdbc</artifactId>
 		  <version>6.0</version>
-		</dependency> 
+		</dependency>  -->
 		<!-- spring JDBC -->
 		<dependency>
 		  <groupId>org.springframework</groupId>

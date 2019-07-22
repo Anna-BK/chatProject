@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -126,22 +127,30 @@ public class AJAXController {
 	
 	
 	// Calendar
-	
 	@RequestMapping(value = "/createCal")
-	public String register( CalendarVO vo ) throws Exception{
+	public HashMap<String, Object> register( CalendarVO vo ) {
 
-		service.createCal(vo);
+		try {
+			service.createCal(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("result", "success");
 
-		return "SUCCESS";
+		return map;
 		
 	}
 	
-	
+	@ResponseBody
 	@RequestMapping(value = "/listCal")
 	public List<Object> listCal(String roomnumber) throws Exception{
 		
-		System.out.println(roomnumber);
+		//System.out.println(roomnumber);
 
+		System.out.println("listCal »£√‚");
+		
 		List<Object>list = service.listCal(roomnumber);
 
 		return list ;
