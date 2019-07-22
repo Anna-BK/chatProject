@@ -33,7 +33,7 @@ function listCal(roomnumber) {
 			//if(result == 'SUCCESS'){ alert("등록 되었습니다");}
 			var arr = [];
 			var colors = ["blue","green","red","pink"];
-			$(data).each(	function(index, e) {
+			$(data).each(	function(index, e) { 
 
 				
 				var elm = { title : e.title, 
