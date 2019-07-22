@@ -30,6 +30,7 @@ function listCal(roomnumber) {
 			roomnumber : roomnumber
 		},
 		success : function (data) {
+			alert(data);
 			console.log(data);
 			console.log("성공");
 			//if(result == 'SUCCESS'){ alert("등록 되었습니다");}
@@ -61,6 +62,11 @@ function listCal(roomnumber) {
               $('#cardList').prepend($(str));
 							
 		});
+			
+			
+		/* 	$('#caldendar').remove();
+			$('#calmodalbody').append($('<div id="calendar"></div>')); */
+			
 
 		
 			var calendar = $('#calendar').fullCalendar({
@@ -105,7 +111,7 @@ var wsocket;
 
 function connect() {
 
-	wsocket = new SockJS("http://localhost/web/chat");
+	wsocket = new SockJS("http://localhost:8087/web/chat");
 	wsocket.onopen = onOpen;
 	wsocket.onmessage = onMessage;
 }
@@ -850,7 +856,7 @@ $('.fileDrop').on('drop', function (event) {
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<div class="modal-body">
+					<div id="calmodalbody" class="modal-body">
 					<!-- 	<p>Modal body text goes here.</p>
 						<ul id="calList"></ul> -->
 		<div  id="cardList" >
@@ -1033,10 +1039,6 @@ $('#calendarComplete').on("click", function () {
 
 	console.log(sdate+shour+sminute);
 	
-	alert(content);
-	alert(title);
-	alert(loc);
-	alert(roomnumber);
 
 	$.ajax({
 		type : 'get',
@@ -1053,104 +1055,21 @@ $('#calendarComplete').on("click", function () {
 			roomnumber : roomnumber
 		},
 		success : function (data) {
-	/* 		console.log(data);
-			console.log("성공");
-			if(result == 'SUCCESS'){ alert("등록 되었습니다");}
-			appendMessage("일정이 등록되었습니다");
-			$('.calendar').css('display','none'); $('body').css('overflow','visible');   */
 			
 			
 			console.log(data.result);
 			
-			alert("성공~~~~~");
+			alert(roomnumber+"////");
 			
 			console.log("성공");
 			
-			$('#calendar').empty();
+			//$('#calendar').empty().removeClass( "fc fc-unthemed fc-ltr" );
 			
-			var roomnumber = '${param.roomnumber}';
+			
+			$('#calmodalbody').append($('<div id="calendar"></div>'));
+			
 			listCal(roomnumber);
-			
-			
 
-			
-			
-			
-			$.ajax({
-				type : 'post',
-				url : '/web/ajax/listCal',
-				dataType : 'json',
-				data :{
-					roomnumber : '${param.roomnumber}'
-				},
-				success : function (data) {
-					console.log(data);
-					console.log("성공");
-					//if(result == 'SUCCESS'){ alert("등록 되었습니다");}
-					var arr = [];
-					var colors = ["blue","green","red","pink"];
-					$(data).each(	function(index, e) { 
-
-						
-						var elm = { title : e.title, 
-											start : e.startdate,
-											end : e.enddate,
-											 allDay: false,
-										      color: colors[index%4],
-										      myid : e.calno
-										};
-					arr.push(elm);
-					
-					var str ='<div class="card" style="display: none;" id="'+e.calno+'">'			
-					+'<div class="card-body" style="  height: 200px;">'
-		             +' <h4 class="card-title">'+e.title+'</h4>'
-		              +'<h6 class="card-subtitle mb-2 text-muted">'+e.startdate+' '+e.starttime+' - '+e.enddate+' '+e.endtime+'</h6>'
-		              +'<p class="card-text">'+e.content+'</p>'
-		              +'<p class="card-text">'+e.loc+'</p>'
-		              +'<button onclick="location.href='+"'/web/ajax/delCal?calno="+e.calno+'&roomnumber=${param.roomnumber}'+"'"+'"'
-		            		  +'class="btn btn-primary" style="float: right;">삭제</button>'
-		              +'</div>'
-		              +'</div>';
-		              
-		              $('#cardList').prepend($(str));
-									
-				});
-
-				
-					var calendar = $('#calendar').fullCalendar({
-						events: arr,
-						editable : true,
-						   dayClick: function (date, jsEvent, view) {
-								alert(date.format('YYYY년 MM월 DD일'));
-								var startdate =moment(new Date(date)).format('MM/DD/YYYY');// date.format('YYYY년 MM월 DD일');
-								$('#startdate').val(startdate).html(startdate);
-								$('#enddate').val(startdate).html(startdate);
-								$('#calendar').fullCalendar('addEventSource',
-									[
-										{
-											title:  '',
-											start:  date.format('YYYY, MM, DD'),
-											color : 'gray'
-										}
-									]
-								);
-							},
-							
-							  eventClick: function(event) {							    
-								    alert(event.myid);
-								    $('.card').css('display','none');
-								   $('#'+event.myid).css('display','block');
-								   
-								  }
-						});
-					},
-				error:function(){
-					alert("에러~~~~~~~~~~");
-				}
-			});
-			
-			
-			
 			
 		},
 		error:function(){
