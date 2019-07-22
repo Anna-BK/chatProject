@@ -19,8 +19,6 @@
 <script type="text/javascript">
 
 function listCal(roomnumber) {
-	
-	
 
 	$.ajax({
 		type : 'post',
@@ -31,14 +29,13 @@ function listCal(roomnumber) {
 		},
 		success : function (data) {
 			console.log(data);
-			alert(data);
 			console.log("성공");
 			//if(result == 'SUCCESS'){ alert("등록 되었습니다");}
 			var arr = [];
 			var colors = ["blue","green","red","pink"];
-			$(data).each(	function(index, e) {
+			$(data).each(	function(index, e) { 
 
-				var test = 1;
+				
 				var elm = { title : e.title, 
 									start : e.startdate,
 									end : e.enddate,
@@ -47,9 +44,6 @@ function listCal(roomnumber) {
 								      myid : e.calno
 								};
 			arr.push(elm);
-			
-			
-			
 			
 			var str ='<div class="card" style="display: none;" id="'+e.calno+'">'			
 			+'<div class="card-body" style="  height: 200px;">'
@@ -61,8 +55,6 @@ function listCal(roomnumber) {
             		  +'class="btn btn-primary" style="float: right;">삭제</button>'
               +'</div>'
               +'</div>';
-              
-              
               
               $('#cardList').prepend($(str));
 							
@@ -93,26 +85,13 @@ function listCal(roomnumber) {
 						    $('.card').css('display','none');
 						   $('#'+event.myid).css('display','block');
 						   
-
-						  
-					
-						    
 						  }
-				
-				
 				});
-			
-			
-				
 			},
-			
 		error:function(){
 			alert("에러~~~~~~~~~~");
-			
 		}
 	});
-	
-	
 };	
 
 
@@ -191,8 +170,14 @@ function appendMessage(msg) {
 $(document).ready(function() {
 	
 	
-	var roomnumber = '${param.roomnumber}';
-	listCal(roomnumber);	
+	$('.callist').on("click", function(){
+	
+		$('.calendarmodal').css('display','block'); $('body').css('overflow','hidden');
+		var roomnumber = '${param.roomnumber}';
+		listCal(roomnumber);	
+		
+	})
+	
 	
 
 connect();
@@ -672,13 +657,13 @@ small{
 							<a class="dropdown-item" href="#">공지</a>
 							<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#"
-							onclick="$('.modal.upload').css('display','block'); $('body').css('overflow','hidden');">파일</a>
+							onclick="$('.uploadmodal').css('display','block'); $('body').css('overflow','hidden');">파일</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#"
-							onclick="$('.modal.calendar').css('display','block'); $('body').css('overflow','hidden');" >일정</a>
+							<a class="dropdown-item callist" href="#"
+							onclick="" >일정</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item vote votelist" href="#"
-								onclick="$('.modal').css('display','block'); $('body').css('overflow','hidden');">투표</a>
+								onclick="$('.votemodal').css('display','block'); $('body').css('overflow','hidden');">투표</a>
 						</div>
 						<input type="text" id="message">
 						<button type="button"
@@ -710,7 +695,7 @@ $("#btn_mypage").on("click",function(){
 	location.href="<%= request.getContextPath()%>/members/mypage.do";
 });
 </script>
-<div class="modal upload">
+<div class="modal uploadmodal">
 		<div class="ReactModal__Overlay ReactModal__Overlay--after-open"
 			aria-modal="true"
 			style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(73, 80, 86, 0.95); z-index: 150;">
@@ -720,7 +705,7 @@ $("#btn_mypage").on("click",function(){
 						<h5 class="modal-title">파일업로드</h5>
 						<button class="close" aria-label="Close" type="button"
 							data-dismiss="modal"
-							onclick="$('.modal').css('display','none'); $('body').css('overflow','visible');  ">
+							onclick="$('.uploadmodal').css('display','none'); $('body').css('overflow','visible');  ">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -849,7 +834,7 @@ $('.fileDrop').on('drop', function (event) {
 
 </script>
 <!--Calendar -->
-	<div class="modal calendar">
+	<div class="modal calendarmodal">
 		<div class="ReactModal__Overlay ReactModal__Overlay--after-open"
 			aria-modal="true"
 			style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(73, 80, 86, 0.95); z-index: 150;">
@@ -859,7 +844,7 @@ $('.fileDrop').on('drop', function (event) {
 						<h5 class="modal-title">일정</h5>
 						<button class="close" aria-label="Close" type="button"
 							data-dismiss="modal"
-							onclick="$('.modal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
+							onclick="$('.calendarmodal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -948,7 +933,7 @@ $('.fileDrop').on('drop', function (event) {
 	</div>
 	
 	
-	<div class="modal">
+	<div class="modal votemodal">
 		<div class="ReactModal__Overlay ReactModal__Overlay--after-open"
 			aria-modal="true"
 			style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(73, 80, 86, 0.95); z-index: 150;">
@@ -958,7 +943,7 @@ $('.fileDrop').on('drop', function (event) {
 						<h5 class="modal-title">투표</h5>
 						<button class="close" aria-label="Close" type="button"
 							data-dismiss="modal"
-							onclick="$('.modal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
+							onclick="$('.votemodal').css('display','none'); $('body').css('overflow','visible'); $('.voteComplete').css('display','none'); ">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
