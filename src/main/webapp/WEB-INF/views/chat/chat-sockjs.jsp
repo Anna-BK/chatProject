@@ -38,7 +38,7 @@ function listCal(roomnumber) {
 			var colors = ["blue","green","red","pink"];
 			$(data).each(	function(index, e) {
 
-				
+				var test = 1;
 				var elm = { title : e.title, 
 									start : e.startdate,
 									end : e.enddate,
