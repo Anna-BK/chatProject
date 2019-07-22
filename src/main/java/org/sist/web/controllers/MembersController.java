@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -29,7 +30,7 @@ public class MembersController {
 	//회원가입
 	@RequestMapping(value= {"join.do"}, method=RequestMethod.GET)
 	public String join() {
-		return "joinus/join";
+		return "joinus/join2";
 	}	
 	
 	@RequestMapping(value= {"join.do"}, method=RequestMethod.POST)
@@ -49,6 +50,18 @@ public class MembersController {
     public String login() {
     	return "joinus/login";
     }
+	
+	
+	//아이디 중복검사
+	@ResponseBody
+	@RequestMapping(value="checkId.do")
+	public int idCheck(String id, ModelAndView mv) throws Exception {
+		int result=0;
+		MembersVO vo = this.service.getMember(id);
+		if(vo != null) result = 1;
+		return result;
+	}
+	
 	
 	//마이페이지
 	@RequestMapping(value= {"mypage.do"},method=RequestMethod.GET)

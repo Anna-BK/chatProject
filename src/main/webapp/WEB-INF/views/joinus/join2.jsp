@@ -19,6 +19,7 @@
                         <span class="ps_box int_id">
 							<input type="text" id="id" name="id" class="int" title="ID" maxlength="20">
 						</span>
+						<button type="button" id="btn_idck"class="btn btn-primary">중복확인</button>
                         <span class="error_next_box" id="idMsg" style="display:none" role="alert"></span>
                     </div>
 
@@ -28,12 +29,12 @@
 							<input type="password" id="pswd" name="pswd" class="int" title="비밀번호 입력" aria-describedby="pswd1Msg" maxlength="20">
                             <span class="lbl"><span id="pswd1Span" class="step_txt"></span></span>
 						</span>
-                        <span class="error_next_box" id="pswd1Msg" style="display:none" role="alert">5~12자의 영문 소문자, 숫자와 특수기호(_)만 사용 가능합니다.</span>
+                        <span class="error_next_box" id="pswd1Msg" style="display:none" role="alert"></span>
 
                         <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
                         <span class="ps_box int_pass_check" id="pswd2Img">
 							<input type="password" id="pswd2" name="pswd2" class="int" title="비밀번호 재확인 입력" aria-describedby="pswd2Blind" maxlength="20">
-							<!-- <span id="pswd2Blind" class="wa_blind">설정하려는 비밀번호가 맞는지 확인하기 위해 다시 입력 해주세요.</span> -->
+							<span id="pswd2Blind" class="wa_blind"></span>
 						</span>
                         <span class="error_next_box" id="pswd2Msg" style="display:none" role="alert"></span>
                     </div>
@@ -148,10 +149,6 @@
 
 
 <script type="text/JavaScript">
-
-
-    //defaultScript();
-
    $("#btnJoin").on("click",function(){
 
 		var birthday;
@@ -170,8 +167,118 @@
 		alert(typeof birthday);
 		$("#birthday").val(birthday);	
    });
+</script>
+
+<script type="text/javascript">
+
+	var idCheck=0;
+	var oMsg = $("#idMsg");
+    var isID = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
+
+	function showErrorMsg(obj, msg) {
+        obj.attr("class", "error_next_box");
+        obj.html(msg);
+        obj.show();
+    }
+	
+    function showSuccessMsg(obj, msg) {
+        obj.attr("class", "error_next_box green");
+        obj.html(msg);
+        obj.show();
+    }
+	
+	$(function(){
+		$("#btn_idck").click(function(){
+			var inputid = $("#id").val();
+			
+			$.ajax({
+				data: {id: inputid},
+				url: "checkId.do",			
+				success : function(data){
+					//alert(typeof data);
+					if ( inputid == "") {
+     				   showErrorMsg(oMsg,"필수 정보입니다.");
+    				}else if (!isID.test(inputid)) {
+    			        showErrorMsg(oMsg,"5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
+    			    }else if(data==1){
+						showErrorMsg(oMsg,"이미 사용중이거나 탈퇴한 아이디입니다.");
+						$("#btnJoin").prop("disabled",true);	
+						$("#spanId").addClass("has-error")
+						$("id").focus();
+						idCheck=0;
+					}else{
+						showSuccessMsg(oMsg, "멋진 아이디네요!");
+						$("#btnJoin").prop("disabled",false);	
+						$("#spanId").removeClass("has-error")
+						$("#pswd").focus();
+						idCheck=1;
+					}
+				},
+				error: function(error){
+					alert("error~! "+error);
+				}				
+			});
+		});
+	});
+
+//비밀번호
+    function isValidPasswd(str) {
+        var cnt = 0;
+        if (str == "") {
+            return false;
+        }
+        if (str.length < 8) {
+            return false;
+        }
+        for (var i = 0; i < str.length; ++i) {
+            if (str.charAt(0) == str.substring(i, i + 1))
+                ++cnt;
+        }
+        if (cnt == str.length) {
+            return false;
+        }
+        
+        var isPW =/^[A-Za-z0-9`\-=\\\[\];',\./~!@#\$%\^&\*\(\)_\+|\{\}:"<>\?]{8,16}$/;
+        if (!isPW.test(str)) {
+            return false;
+        }
+        return true;
+    }
+    
+$("#pswd").blur( function checkPswd1() {
+    
+	var pw = $("#pswd").val()+"";
+    var oSpan = $("#pswd1Span");
+    var oMsg = $("#pswd1Msg");
+	
+    if (pw == "") {
+        showErrorMsg(oMsg,"필수 정보입니다.");
+    }
+    if (isValidPasswd(pw) != true) {
+        showErrorMsg(oMsg,"8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
+    }else{
+    	showSuccessMsg(oMsg,"안전한 비밀번호입니다.")
+    }
+    
+    		
+});    
+
+$("#pswd2").blur(function checkPswd2() {
+        var pswd1 = $("#pswd");
+        var pswd2 = $("#pswd2");
+        var oMsg = $("#pswd2Msg");
+        var oBlind = $("#pswd2Blind");
+
+        if (pswd1.val() != pswd2.val()) {
+            showErrorMsg(oMsg,"비밀번호가 일치하지 않습니다.");
+            pswd2.val("");
+        } else {
+        	showSuccessMsg(oMsg,"일치합니다.")
+        }
+});
 
 
+	
 </script>
 
 </body>

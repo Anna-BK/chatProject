@@ -182,7 +182,7 @@ public class AJAXController {
 		System.out.println("contentType:"+file.getContentType());
 		
 		
-		return  new ResponseEntity<>(UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
+		return  new ResponseEntity<String>(UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
 	}
 	
 	

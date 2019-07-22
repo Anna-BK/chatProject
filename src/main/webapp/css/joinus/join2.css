@@ -86,3 +86,23 @@ select {
     color: #fff;
     background-color: #2FA4E7;
 }
+.int_id{
+	width:77%;
+	display: inline-block;
+}
+#btn_idck{
+	margin-top: 5px;
+}
+.has-error{
+	border: solid 1px #FFCECE ;
+}
+.error_next_box {
+    display: block;
+    margin: 9px 0 -2px;
+    font-size: 12px;
+    line-height: 14px;
+    color: red;
+}
+.green {
+    color: #08a600!important;
+}
