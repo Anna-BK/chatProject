@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="org.sist.web.mappers.MemberMapper">
+ 	<select id="getTime" resultType="string">
+ 		select sysdate from dual
+ 	</select>
+ 	
+ 	<insert id="insert"> 
+ 		insert into members	(id, pswd, name, birthday, gender, email) values (#{id}, #{pswd},#{name},#{birthday},#{gender}, #{email})
+ 	</insert>
+ 	
+ 	
+ 	<select id="getMember" parameterType="String" resultType="org.sist.web.vo.MembersVO">
+ 		select * from members where id = #{value}
+ 	</select>
+ 	
+ 	
+ 	<update id="updateInfo" parameterType="org.sist.web.vo.MembersVO">
+ 		update members set name=#{name},pswd=#{pswd},email=#{email} where id='${id}'
+ 	</update>
+ 	
+ 	<!-- 
+ 	<select id="readWithPW" resultType="org.zerock.domain.MemberVO">
+ 		select * from tbl_member where userid= #{userid} and userpw=#{userpw}
+ 	</select>
+  -->
+  
+ </mapper>

@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+body{
+    color: #fff;
+}
+.form-wrapper .form-control {
+    padding-left: 12px;
+}
+input.form-control {
+    background-color: #fff;
+    border: solid 1px #ced4da;
+    height: 40px;
+}
+.form-control {
+    border-radius: 2px;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #343a40;
+    height: 36px;
+    -webkit-transition: all 0.08s ease;
+    transition: all 0.08s ease;
+}
+.form-control {
+	margin: 0 auto;
+    display: block;
+    width: 80%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: .25rem;
+}
+.row{
+    margin-top: 20px;
+}
+.member-panel{
+	width:500px;
+	margin: 150px auto 150px auto;
+	border: 1px solid #dee2e6;
+	background-color: #fff;
+	border-radius: 20px;
+	padding: 20px;
+}
+.btn--type-primary {
+    background-color: #2FA4E7;
+    color: #fff !important;
+}
+.btn-new {
+	margin: 0 auto;
+    -webkit-transition: all 0.1s ease-out;
+    transition: all 0.1s ease-out;
+    border-radius: 2px;
+    border: 0;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    height: 48px;
+    line-height: 46px;
+    padding: 0;
+    text-align: center;
+    width: 80%;
+}
+.panel-header{
+	height: 150px;
+}
+.btn-wrap{
+	margin-top: 30px;
+	margin-bottom: 35px;
+}
+
+/* 자동로그인 */
+.col-xs-6{
+	width: 50%;
+	float: left;
+}
+.row-margin {
+    margin-top: 10px;
+}
+.checkbox-custom {
+    color: #343a40;
+    font-size: 13px;
+    margin: 0;
+    padding-left: 50px;
+}
+
+.find-password {
+	padding-right:35px;
+    text-align: right;
+}
+.find-password a {
+    color: #666d75;
+    font-size: 13px;
+    line-height: 20px;
+}
+a, a:active, a:hover, a:link, a:visited {
+    text-decoration: none;
+}
+a {
+    cursor: pointer;
+}

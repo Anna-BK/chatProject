@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+<!-- auto-config : 스프링이 제공하는 로그인페이지 사용
+<http auto-config="true"> 
+<intercept-url pattern="/customer/noticeDetail.htm" access="ROLE_USER"/>
+<intercept-url pattern="/customer/noticeReg.htm" access="ROLE_ADMIN"/>
+<intercept-url pattern="/customer/noticeEdit.htm" access="ROLE_ADMIN"/>
+</http>
+ -->
+
+<http use-expressions="true">
+<intercept-url pattern="/c/chat" access="hasRole('ROLE_USER')" /> 
+ 
+<!-- 같은 로그인 페이지에 파라미터를 담아서 응답 -->
+<form-login login-page="/members/login.do"
+				 default-target-url="/c/main"		 
+				 authentication-failure-url="/members/login.do?login_error"		
+				 /> 
+				
+<!-- 로그아웃 성공시 이동할 페이지 -->
+<logout invalidate-session="true" 
+			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"	
+			logout-success-url="/c/main" 
+			logout-url="/members/logout.do"/>
+<remember-me key="wmoskey" token-validity-seconds="2419200"/><!-- 4주 -->
+ </http>
+
+<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+
+ <authentication-manager>
+     <authentication-provider>
+        <jdbc-user-service 
+             data-source-ref="dataSource"
+             id="jdbcUserService"
+             users-by-username-query=
+               "select  id as username, pswd as password, enabled  from members where id = ?"
+             authorities-by-username-query="select id as username, authority from members where id = ?"  
+        />
+        <password-encoder ref="passwordEncoder"></password-encoder>
+     </authentication-provider>
+   </authentication-manager>
+   
+ 
+   
+<!-- 가상계정으로 테스트..   -->
+<!-- 스프링은 가상계정으로 인증과 인가를 확인할 수 있는 기능을 제공한다  -->
+<!-- 
+<authentication-manager>
+<authentication-provider>
+<user-service >
+<user name="newlec" authorities="ROLE_USER" password="1234"/>
+<user name="admin" authorities="ROLE_USER" password="1234"/>
+</user-service>
+</authentication-provider>
+
+</authentication-manager>
+ -->
+
+</beans:beans>

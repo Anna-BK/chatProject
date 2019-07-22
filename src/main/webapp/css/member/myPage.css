@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+#wrapper{
+	margin: 0 auto;
+    padding: 50px 0 50px;
+    position: relative;
+    width: 400px;
+    border: solid 1px lightgray;
+    margin-bottom:75px;
+}
+.col-form-label{
+	color: #2FA4E7;
+}
+.title{
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.mb-3{
+	width:300px;
+    margin: 0 auto;
+}
+.profile{
+	width:85px;
+	margin: 0 auto;
+}
+#updatebox{
+	margin-top:75px;
+	margin-left: 50px;
+	width:100%;
+
+}
+.card-title{
+	text-align: center;
+}
+#btnbox{
+	width: 130px; 
+	margin: 75px 0 0 75px;
+}

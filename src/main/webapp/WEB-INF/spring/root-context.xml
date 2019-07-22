@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	
+	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+     <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+     <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+     <property name="username" value="scott"></property>
+     <property name="password" value="tiger"></property>
+   </bean>		
+ 
+		 
+		 
+   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+     <constructor-arg ref="dataSource"></constructor-arg>  
+   </bean>
+   
+   <!-- DataSourceTransactionManager : JDBC or mybatis 연동 p 508 -->
+   <bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+      
+     <!--  mybatis 설정  -->
+      <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>      
+		<property name="mapperLocations" >
+		<list>
+		<value>classpath:mappers/**/*Mapper.xml</value>		
+		</list>
+		</property>      
+      </bean>
+	
+	<!--  sqlSession bean 객체 선언mapper파일을 가진 sqlSessionFactory를 받아서 dao 생성 sqlSession을 dao라고 생각해도 무방하다 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>	
+		
+</beans>
