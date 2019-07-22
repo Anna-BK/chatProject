@@ -43,7 +43,7 @@ function listCal(roomnumber) {
 								      color: colors[index%4],
 								      myid : e.calno
 								};
-			arr.push(elm);
+			arr.push(elm); 
 			
 			var str ='<div class="card" style="display: none;" id="'+e.calno+'">'			
 			+'<div class="card-body" style="  height: 200px;">'
