@@ -43,7 +43,7 @@ function listCal(roomnumber) {
 								      color: colors[index%4],
 								      myid : e.calno
 								};
-			arr.push(elm);
+			arr.push(elm);  
 			
 			var str ='<div class="card" style="display: none;" id="'+e.calno+'">'			
 			+'<div class="card-body" style="  height: 200px;">'
@@ -103,7 +103,7 @@ var wsocket;
 
 function connect() {
 
-	wsocket = new SockJS("http://localhost/web/chat");
+	wsocket = new SockJS("http://211.63.89.172/web/chat");
 	wsocket.onopen = onOpen;
 	wsocket.onmessage = onMessage;
 }
@@ -217,6 +217,7 @@ $('.votecomplete').on("click", function() {
 	var roomnumber = "${param.roomnumber}";
 	vote[0] = roomnumber;
 	vote[1] = title;
+	
 	var i = 2;
 	var nickname = $(".userid").val();
 
